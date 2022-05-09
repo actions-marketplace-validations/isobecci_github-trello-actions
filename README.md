@@ -21,12 +21,10 @@ name: Trello Integretion
 
 on:
   pull_request:
-    types: [opened, edited, closed]
+    types: [opened, closed]
     branches: [ main ]
   issues:
     types: [opened, reopened]
-  issue_comment: 
-    types: [created, edited]
 
 jobs:
   create_trello_card: 
