@@ -1,0 +1,30 @@
+{
+  "name": "github-trello-actions",
+  "version": "1.0.0",
+  "description": "Connect Github to Trello Actions",
+  "main": "index.js",
+  "scripts": {
+    "trello": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isobecci/github-trello-actions.git"
+  },
+  "files": [
+    "index.js",
+    "_trello.js"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isobecci/github-trello-actions/issues"
+  },
+  "homepage": "https://github.com/isobecci/github-trello-actions#readme",
+  "dependencies": {
+    "@actions/github": "^5.0.1",
+    "node-fetch": "^3.2.4"
+  },
+  "type": "module"
+}

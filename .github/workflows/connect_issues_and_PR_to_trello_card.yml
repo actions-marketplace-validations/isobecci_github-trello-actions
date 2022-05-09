@@ -1,0 +1,45 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Trello Integretion
+
+on:
+  pull_request:
+    types: [opened, edited, closed]
+    branches: [ main ]
+  issues:
+    types: [opened, reopened]
+  issue_comment: 
+    types: [created, edited]
+
+jobs:
+  create_trello_card: 
+    name: Create Trello Card
+    runs-on: ubuntu-latest
+
+    # strategy:
+    #   matrix:
+    #     node-version: [18.x]
+    #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    # - uses: actions/checkout@v3
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
+    #     cache: 'npm'
+    # - run: npm ci
+    # - run: npm run trello
+    - name: Do trello-github-actions # GitHubに表示されるステップの名前
+      id: do-trello-github-actions # ステップの識別子
+      uses: isobecci/github-trello-actions@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
+        TRELLO_API_TOKEN: ${{ secrets.TRELLO_API_TOKEN }}
+        TRELLO_BOARD_ID: ${{ secrets.TRELLO_BOARD_ID }}
+        TRELLO_TODO_LIST_ID: ${{ secrets.TRELLO_TODO_LIST_ID }}
+        TRELLO_DOING_LIST_ID: ${{ secrets.TRELLO_DOING_LIST_ID }}
+        TRELLO_DONE_LIST_ID: ${{ secrets.TRELLO_DONE_LIST_ID }}
+        # TODO: replace Github login to Trello username

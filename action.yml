@@ -1,0 +1,7 @@
+name: 'Connect GitHub Issues and Pull Requests to Trello Cards'
+
+description: 'Connect GitHub issues and Pull requests to Trello cards.'
+
+runs:
+  using: 'node16'
+  main: 'index.js'
