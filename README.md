@@ -8,11 +8,11 @@ You can link GitHub Issues and Pull Request with Trello card.
 
 `TRELLO_BOARD_ID`: Your Trello board ID (Short or Long ID)
 
-`TRELLO_TODO_LIST_ID`: Your Trello list ID that a card will be created in this list when an issue open.
+`TRELLO_TODO_LIST_ID`: Your Trello list ID that a card will be created in when an issue open.
 
-`TRELLO_DOING_LIST_ID`: Your Trello list ID that a card will be moved to this list when a PR open.
+`TRELLO_DOING_LIST_ID`: Your Trello list ID that a card will be moved to when a PR open.
 
-`TRELLO_DONE_LIST_ID`: Your Trello list ID that a card will be moved to this list when a PR close.
+`TRELLO_DONE_LIST_ID`: Your Trello list ID that a card will be moved to when a PR close.
 
 ## 1 workflow.yml needed
 
