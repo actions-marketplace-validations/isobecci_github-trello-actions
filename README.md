@@ -29,24 +29,13 @@ on:
     types: [created, edited]
 
 jobs:
-  build:
-
+  create_trello_card: 
+    name: Create Trello Card
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run trello
+    - name: Do trello-github-actions
+      id: do-trello-github-actions
+      uses: isobecci/github-trello-actions@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
