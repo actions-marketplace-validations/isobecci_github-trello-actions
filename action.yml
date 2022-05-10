@@ -2,6 +2,10 @@ name: 'Connect GitHub Issues and Pull Requests to Trello Cards'
 
 description: 'Connect GitHub issues and Pull requests to Trello cards.'
 
+branding:
+    color: blue
+    icon: activity
+
 runs:
   using: 'node16'
   main: 'index.js'
