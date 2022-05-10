@@ -1,6 +1,6 @@
 {
   "name": "github-trello-actions",
-  "version": "1.0.0",
+  "version": "2022.05.10",
   "description": "Connect Github to Trello Actions",
   "main": "index.js",
   "scripts": {
