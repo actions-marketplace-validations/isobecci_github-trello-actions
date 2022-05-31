@@ -15,8 +15,8 @@ const doingListId = process.env['TRELLO_DOING_LIST_ID'];
 const doneListId = process.env['TRELLO_DONE_LIST_ID'];
 
 const issue = github.context.payload.issue;
-// console.log('issue', issue);
 const pullRequest = github.context.payload.pull_request;
+// console.log('issue', issue);
 // console.log('pullRequest', pullRequest);
 
 (async () => {
@@ -36,7 +36,7 @@ const pullRequest = github.context.payload.pull_request;
       trelloApiToken,
     );
 
-    if (issue) {
+    if (issue && !pullRequest) {
       const memberIds = members
         .filter(({ username }) =>
           issue.assignees.find(({ login }) => login === username),
