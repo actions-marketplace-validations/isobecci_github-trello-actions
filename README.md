@@ -1,4 +1,4 @@
-# trello-github-actions
+# github-trello-actions
 You can link GitHub Issues and Pull Request with Trello card.
 
 ## Env
@@ -31,8 +31,8 @@ jobs:
     name: Create Trello Card
     runs-on: ubuntu-latest
     steps:
-    - name: Do trello-github-actions
-      id: do-trello-github-actions
+    - name: Do github-trello-actions
+      id: do-github-trello-actions
       uses: isobecci/github-trello-actions@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

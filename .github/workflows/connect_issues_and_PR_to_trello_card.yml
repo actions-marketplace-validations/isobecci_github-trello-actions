@@ -31,8 +31,8 @@ jobs:
     #     cache: 'npm'
     # - run: npm ci
     # - run: npm run trello
-    - name: Do trello-github-actions # GitHubに表示されるステップの名前
-      id: do-trello-github-actions # ステップの識別子
+    - name: Do github-trello-actions # GitHubに表示されるステップの名前
+      id: do-github-trello-actions # ステップの識別子
       uses: isobecci/github-trello-actions@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
