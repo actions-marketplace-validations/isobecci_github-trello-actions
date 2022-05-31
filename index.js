@@ -70,7 +70,7 @@ const pullRequest = github.context.payload.pull_request;
 
     if (pullRequest) {
       const issueNumbers =
-        pullRequest.body && pullRequest.body.match(/(#[0-9]+?)/g);
+        pullRequest.body && pullRequest.body.match(/#[0-9]+?(\s|,|$)/g);
       if (issueNumbers && issueNumbers.length > 0) {
         const [fromListId, toListId] = pullRequest.closed_at
           ? [doingListId, doneListId]
@@ -83,13 +83,16 @@ const pullRequest = github.context.payload.pull_request;
           trelloApiKey,
           trelloApiToken,
         );
+        // console.log(cards.map((card) => card.name));
         const targetCards = new Set();
         for (let issueNumber of issueNumbers) {
+          // console.log(new RegExp(`\\[${issueNumber}\\]`, 'i'));
           const { id: cardId } = cards.find(({ name }) =>
             new RegExp(`\\[${issueNumber}\\]`, 'i').test(name),
           ) || { id: null };
           cardId && targetCards.add(cardId);
         }
+        // console.log(targetCards);
         targetCards.size &&
           targetCards.forEach(async (cardId) => {
             if (pullRequest.closed_at) {
