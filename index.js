@@ -70,7 +70,7 @@ const pullRequest = github.context.payload.pull_request;
 
     if (pullRequest) {
       const issueNumbers =
-        pullRequest.body && pullRequest.body.match(/#[0-9]+?(\s|,|$)/g);
+        pullRequest.body && pullRequest.body.match(/(^|,?\s*)(#[0-9]+?)(\s*,?\s|$)/g);
       if (issueNumbers && issueNumbers.length > 0) {
         const [fromListId, toListId] = pullRequest.closed_at
           ? [doingListId, doneListId]
@@ -88,11 +88,11 @@ const pullRequest = github.context.payload.pull_request;
         for (let issueNumber of issueNumbers) {
           // console.log(new RegExp(`\\[${issueNumber}\\]`, 'i'));
           const { id: cardId } = cards.find(({ name }) =>
-            new RegExp(`\\[${issueNumber}\\]`, 'i').test(name),
+            new RegExp(`\[${issueNumber.trim()}\]`, 'i').test(name),
           ) || { id: null };
           cardId && targetCards.add(cardId);
         }
-        // console.log(targetCards);
+        console.log(targetCards);
         targetCards.size &&
           targetCards.forEach(async (cardId) => {
             if (pullRequest.closed_at) {
