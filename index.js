@@ -1,118 +1,25 @@
 // import core from '@actions/core';
 import github from '@actions/github';
-import {
-  getTrello,
-  createACardWithParams,
-  createAttachmentOnCard,
-  moveACard,
-} from './_trello.js';
+import { doAction } from './_action.js';
 
-const trelloApiKey = process.env['TRELLO_API_KEY'];
-const trelloApiToken = process.env['TRELLO_API_TOKEN'];
-const boardId = process.env['TRELLO_BOARD_ID'];
-const todoListId = process.env['TRELLO_TODO_LIST_ID'];
-const doingListId = process.env['TRELLO_DOING_LIST_ID'];
-const doneListId = process.env['TRELLO_DONE_LIST_ID'];
+const key = process.env['TRELLO_API_KEY'];
+const token = process.env['TRELLO_API_TOKEN'];
+const bId = process.env['TRELLO_BOARD_ID'];
+const todoId = process.env['TRELLO_TODOo_ID'];
+const doingId = process.env['TRELLO_D_LIST_ID'];
+const doneId = process.env['TRELONE_LIST_ID'];
 
-const issue = github.context.payload.issue;
-const pullRequest = github.context.payload.pull_request;
-// console.log('issue', issue);
-// console.log('pullRequest', pullRequest);
+const _issue = github.context.payload.issue;
+const _pullRequest = github.context.payload.pull_request;
 
-(async () => {
-  try {
-    const members = await getTrello(
-      'board',
-      boardId,
-      'members',
-      trelloApiKey,
-      trelloApiToken,
-    );
-    const labels = await getTrello(
-      'board',
-      boardId,
-      'labels',
-      trelloApiKey,
-      trelloApiToken,
-    );
-
-    if (issue && !pullRequest) {
-      const memberIds = members
-        .filter(({ username }) =>
-          issue.assignees.find(({ login }) => login === username),
-        )
-        .map(({ id }) => id);
-      // TODO: replace Github login to Trello username
-      const labelIds = labels
-        .filter((label) => issue.labels.find(({ name }) => name === label.name))
-        .map(({ id }) => id);
-      const params = {
-        number: issue.number,
-        title: issue.title,
-        description: issue.body,
-        memberIds,
-        labelIds,
-      };
-      const card = await createACardWithParams(
-        todoListId,
-        params,
-        trelloApiKey,
-        trelloApiToken,
-      );
-      await createAttachmentOnCard(
-        card.id,
-        issue.html_url,
-        trelloApiKey,
-        trelloApiToken,
-      );
-      console.log('issue:open', issue.created_at);
-    }
-
-    if (pullRequest) {
-      const issueNumbers = pullRequest.body?.match(/(^|,?\s*)(#[0-9]+?)(\s*,?\s|$)/g)?.map((i) => i.trim());
-      if (issueNumbers?.length) {
-        const [fromListId, toListId] = pullRequest.closed_at
-          ? [doingListId, doneListId]
-          : [todoListId, doingListId];
-        // get cards
-        const cards = await getTrello(
-          'lists',
-          fromListId,
-          'cards?open',
-          trelloApiKey,
-          trelloApiToken,
-        );
-        // console.log(cards.map((card) => card.name));
-        const targetCards = new Set();
-        for (let issueNumber of issueNumbers) {
-          // console.log(new RegExp(`\\[${issueNumber}\\]`, 'i'));
-          const { id: cardId } = cards.find(({ name }) =>
-            new RegExp(`\\[\${issueNumber}\\]`, 'i').test(name),
-          ) || { id: null };
-          cardId && targetCards.add(cardId);
-        }
-        console.log(targetCards);
-        targetCards.size &&
-          targetCards.forEach(async (cardId) => {
-            if (pullRequest.closed_at) {
-              console.log('pullRequest:closed', pullRequest.closed_at);
-            } else {
-              console.log('pullRequest:open', pullRequest.created_at);
-              // add attachment (PR) to card
-              await createAttachmentOnCard(
-                cardId,
-                pullRequest.html_url,
-                trelloApiKey,
-                trelloApiToken,
-              );
-            }
-            // move card
-            await moveACard(cardId, toListId, trelloApiKey, trelloApiToken);
-          });
-      }
-    }
-  } catch (error) {
-    throw new Error(error);
-    // core.setFailed(error.message);
-  }
-})();
+(async () =>
+  await doAction(
+    bId,
+    todoId,
+    doingId,
+    doneId,
+    key,
+    token,
+    _issue,
+    _pullRequest,
+  ))();

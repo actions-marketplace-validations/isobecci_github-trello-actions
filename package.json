@@ -4,8 +4,7 @@
   "description": "Connect Github to Trello Actions",
   "main": "index.js",
   "scripts": {
-    "trello": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "trello": "node index"
   },
   "repository": {
     "type": "git",
