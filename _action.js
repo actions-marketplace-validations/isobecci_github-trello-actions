@@ -5,7 +5,7 @@ import {
   moveACard,
 } from './_trello.js';
 
-export async function doAction(
+export async function doAction({
   boardId,
   todoListId,
   doingListId,
@@ -15,7 +15,7 @@ export async function doAction(
   issue,
   pullRequest,
   dev,
-) {
+}) {
   try {
     // if (dev) console.log({ boardId, todoListId, doingListId, doneListId });
     if (dev)
