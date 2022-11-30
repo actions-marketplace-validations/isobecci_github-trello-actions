@@ -23,6 +23,6 @@ const pullRequest = github.context.payload.pull_request;
     trelloApiToken,
     issue,
     pullRequest,
-    prefix
+    prefix,
     dev: false,
   }))();
