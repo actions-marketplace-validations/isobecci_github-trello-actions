@@ -8,7 +8,7 @@ const boardId = process.env['TRELLO_BOARD_ID'];
 const todoListId = process.env['TRELLO_TODO_LIST_ID'];
 const doingListId = process.env['TRELLO_DOING_LIST_ID'];
 const doneListId = process.env['TRELLO_DONE_LIST_ID'];
-const prefix = process.env['PREFIX'];
+const prefix = process.env['PREFIX'] || '';
 
 const issue = github.context.payload.issue;
 const pullRequest = github.context.payload.pull_request;
