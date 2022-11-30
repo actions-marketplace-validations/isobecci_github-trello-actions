@@ -14,6 +14,7 @@ export async function doAction({
   trelloApiToken,
   issue,
   pullRequest,
+  prefix,
   dev,
 }) {
   try {
@@ -97,9 +98,9 @@ export async function doAction({
         if (dev) console.log(cards.map((card) => card.name));
         const targetCards = new Set();
         for (let issueNumber of issueNumbers) {
-          if (dev) console.log(new RegExp(`\\[\\${issueNumber}\\]`, 'i'));
+          if (dev) console.log(new RegExp(`\\[\\${prefix}${issueNumber}\\]`, 'i'));
           const { id: cardId } = cards.find(({ name }) =>
-            new RegExp(`\\[\\${issueNumber}\\]`, 'i').test(name),
+            new RegExp(`\\[\\${prefix}${issueNumber}\\]`, 'i').test(name),
           ) || { id: null };
           cardId && targetCards.add(cardId);
         }
