@@ -81,8 +81,9 @@ export async function doAction({
     if (pullRequest) {
       const issueNumbers = pullRequest.body
         ?.match(/(^|,?\s*)(#[0-9]+?)(\s*,?\s|$)/g)
-        ?.map((i) => i.trim());
+        ?.map((i) => i.replace(/\D/g, '').trim());
       if (dev) console.log({ issueNumbers });
+
       if (issueNumbers?.length) {
         const [fromListId, toListId] = pullRequest.closed_at
           ? [doingListId, doneListId]
@@ -95,18 +96,24 @@ export async function doAction({
           trelloApiKey,
           trelloApiToken,
         );
+        
         if (dev) console.log(cards.map((card) => card.name));
         const targetCards = new Set();
         for (let issueNumber of issueNumbers) {
-          if (dev) console.log(new RegExp(`\\[\\${prefix}${issueNumber}\\]`, 'i'));
+          const findIssue = new RegExp(`\\[#${prefix}${issueNumber}\\]`, 'i')
+          
+          if (dev) console.log(findIssue);
           const { id: cardId } = cards.find(({ name }) =>
-            new RegExp(`\\[\\${prefix}${issueNumber}\\]`, 'i').test(name),
+            findIssue.test(name),
           ) || { id: null };
           cardId && targetCards.add(cardId);
         }
+        
         if (dev) console.log(targetCards);
+        
         targetCards.size &&
           targetCards.forEach(async (cardId) => {
+          
             if (pullRequest.closed_at) {
               console.log('pullRequest:closed', pullRequest.closed_at);
             } else {
