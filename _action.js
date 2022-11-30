@@ -57,7 +57,7 @@ export async function doAction({
         .filter((label) => issue.labels.find(({ name }) => name === label.name))
         .map(({ id }) => id);
       const params = {
-        number: issue.number,
+        number: `${prefix}${issue.number}`,
         title: issue.title,
         description: issue.body,
         memberIds,
